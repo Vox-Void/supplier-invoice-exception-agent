@@ -316,8 +316,19 @@ class InvestigationService:
             raise ServiceError(403, "ROLE_FORBIDDEN", "A requester must start an investigation.")
 
         mode: WorkflowMode = "baseline" if baseline else request.mode
-        live = self._live_adapter() if mode == "live" else None
         tenant = actor.tenant_id
+        canonical = request.model_dump(mode="json")
+        canonical["mode"] = mode
+        try:
+            previous = self.store.find_active_or_complete(tenant, key, canonical)
+        except Conflict as error:
+            raise ServiceError(
+                409, "IDEMPOTENCY_CONFLICT", "The key belongs to a different request."
+            ) from error
+        if previous is not None:
+            return self._existing(tenant, previous)
+
+        live = self._live_adapter() if mode == "live" else None
         try:
             snapshot = self.store.get_snapshot(tenant, request.snapshot_id)
             access = EvidenceAccess(snapshot, tenant, request.invoice_id)
@@ -330,8 +341,6 @@ class InvestigationService:
                 503, "SNAPSHOT_UNAVAILABLE", "The snapshot failed its integrity check."
             ) from error
 
-        canonical = request.model_dump(mode="json")
-        canonical["mode"] = mode
         try:
             reservation = self.store.reserve(
                 tenant,

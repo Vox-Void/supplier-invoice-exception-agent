@@ -216,6 +216,22 @@ class Store:
             )
             return Reservation("claimed", existing_run, token)
 
+    def find_active_or_complete(self, tenant: str, key: str, request: Record) -> str | None:
+        with self.connect() as conn:
+            row = conn.execute(
+                """
+                SELECT run_id, request_hash, state = 'COMPLETE'
+                    OR coalesce(lease_expires_at > clock_timestamp(), false) AS current
+                FROM runs WHERE tenant_id = %s AND idempotency_key = %s
+                """,
+                (tenant, key),
+            ).fetchone()
+        if row is None:
+            return None
+        if row["request_hash"] != canonical_digest(request):
+            raise Conflict("Idempotency key already belongs to a different investigation")
+        return str(row["run_id"]) if row["current"] else None
+
     def complete(self, tenant: str, run_id: str, lease_token: str, packet: Record) -> str:
         case_id = uuid4().hex
         with self.connect() as conn:

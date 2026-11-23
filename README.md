@@ -4,6 +4,8 @@ Check an invoice against its purchase order and posted receipts. Save an evidenc
 
 The demo uses a fictional South African retailer. The PO covers 100 units. The warehouse received 80 before the cutoff, and an earlier invoice used 30. The new invoice asks for 60 of the 50 available, so the draft records a ten-unit shortfall and proposes requesting the receipt.
 
+[Watch the captioned walkthrough (2:10)](docs/demo.mp4). It follows the recorded API demo from the invoice request to the saved reviewer decision.
+
 ## Run it
 
 Use Bash on Linux or WSL2 with Docker Compose v2 and uv 0.13.9. The project pins Python 3.11.15 and PostgreSQL 17.11. The first run downloads the dependencies and database image.
