@@ -17,6 +17,8 @@ REVIEWER = {"Authorization": f"Bearer {IDENTITY.reviewer_token}"}
 
 
 def setup_api(store, settings=LiveSettings()):
+    if isinstance(store, Mock):
+        store.find_active_or_complete.return_value = None
     return TestClient(
         create_app(InvestigationService(store, DirectoryRecordings(), settings), IDENTITY)
     )
@@ -129,6 +131,9 @@ def test_real_api_case_survives_new_app_and_decision_retry(seeded_store: Store):
     api = setup_api(Store(seeded_store.dsn))
     retry = api.post("/v1/investigations", headers=headers, json={**REQUEST, "mode": "recorded"})
     assert retry.status_code == 200 and retry.json()["case_id"] == case_id
+    for change in ({"mode": "live"}, {"invoice_id": "unknown-invoice"}):
+        conflict = api.post("/v1/investigations", headers=headers, json={**REQUEST, **change})
+        assert (conflict.status_code, conflict.json()["code"]) == (409, "IDEMPOTENCY_CONFLICT")
     assert api.get(f"/v1/investigations/{run_id}", headers=REQUESTER).json()["state"] == "COMPLETE"
     assert any(row["case_id"] == case_id for row in api.get("/v1/cases", headers=REVIEWER).json())
     case = api.get(f"/v1/cases/{case_id}", headers=REVIEWER).json()
@@ -157,3 +162,15 @@ def test_real_api_case_survives_new_app_and_decision_retry(seeded_store: Store):
             (case_id,),
         ).fetchall()
     assert [row["event_type"] for row in rows] == ["CASE_READY", "REVIEW_DECIDED"]
+
+
+def test_completed_live_run_can_be_retrieved_after_disabling_provider(seeded_store: Store):
+    request = {**REQUEST, "mode": "live"}
+    key = uuid4().hex
+    claim = seeded_store.reserve("cape-retail", "demo-requester", key, request, "invoice-match-v1")
+    assert claim.lease_token is not None
+    case_id = seeded_store.complete("cape-retail", claim.run_id, claim.lease_token, {"test": True})
+    response = setup_api(seeded_store).post(
+        "/v1/investigations", headers={**REQUESTER, "Idempotency-Key": key}, json=request
+    )
+    assert response.status_code == 200 and response.json()["case_id"] == case_id
