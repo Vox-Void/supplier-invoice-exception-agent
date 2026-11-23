@@ -1,0 +1,83 @@
+{
+  "calls": [
+    {
+      "arguments": {},
+      "digest": "94edbb0aa1a62d3ded29328b44a3a5b7461a33d2145ecf67fca83f48e8434c51",
+      "tool": "read_invoice"
+    },
+    {
+      "arguments": {
+        "po_id": "PO-010"
+      },
+      "digest": "b5d2360d87b75d606cf6a5231a15bd0f6120a0e535f8972842226572f1d71560",
+      "tool": "read_purchase_order"
+    },
+    {
+      "arguments": {
+        "po_line_ids": [
+          "POL-010-1"
+        ]
+      },
+      "digest": "3439fe9005b359024c2d0cad6c3afcaf6703102f4d118aee14d6c6337c6978d9",
+      "tool": "read_receipts"
+    },
+    {
+      "arguments": {
+        "po_line_ids": [
+          "POL-010-1"
+        ]
+      },
+      "digest": "21ebd15bab5200184f39c269075687e2bed6de50a1b6c13ba9c267bc09c78af5",
+      "tool": "read_prior_allocations"
+    },
+    {
+      "arguments": {},
+      "digest": "929d863fdd1650d95e3d20fd1a9a34733c4949db9dd520f70cc893f43e261638",
+      "tool": "find_duplicate_reference"
+    }
+  ],
+  "draft": {
+    "findings": [
+      {
+        "amount_delta": "0.02",
+        "citations": [
+          {
+            "kind": "invoice_line",
+            "revision": 1,
+            "source_id": "IL-060-1"
+          },
+          {
+            "kind": "po_line",
+            "revision": 1,
+            "source_id": "POL-010-1"
+          }
+        ],
+        "code": "UNIT_PRICE_VARIANCE",
+        "invoice_line_id": "IL-060-1",
+        "po_line_id": "POL-010-1",
+        "quantity_delta": null
+      },
+      {
+        "amount_delta": null,
+        "citations": [
+          {
+            "kind": "invoice_line",
+            "revision": 1,
+            "source_id": "IL-060-1"
+          },
+          {
+            "kind": "po_line",
+            "revision": 1,
+            "source_id": "POL-010-1"
+          }
+        ],
+        "code": "MISSING_EVIDENCE",
+        "invoice_line_id": null,
+        "po_line_id": "POL-010-1",
+        "quantity_delta": null
+      }
+    ],
+    "next_action": "RESEARCH_MISSING_EVIDENCE",
+    "status": "INSUFFICIENT_EVIDENCE"
+  }
+}

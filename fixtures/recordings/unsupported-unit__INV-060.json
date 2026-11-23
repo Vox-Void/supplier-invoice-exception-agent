@@ -1,0 +1,41 @@
+{
+  "calls": [
+    {
+      "arguments": {},
+      "digest": "254ee5d77fcdfdee7fb60774b052c76364a27b9c96e8fa38652daec30b2638a6",
+      "tool": "read_invoice"
+    },
+    {
+      "arguments": {
+        "po_id": "PO-010"
+      },
+      "digest": "dfda86295ecb7fb513b88c4f91beaf32a43818cf9ae47e0e237e8d0e38b84441",
+      "tool": "read_purchase_order"
+    }
+  ],
+  "draft": {
+    "findings": [
+      {
+        "amount_delta": null,
+        "citations": [
+          {
+            "kind": "invoice_line",
+            "revision": 1,
+            "source_id": "IL-060-1"
+          },
+          {
+            "kind": "po_line",
+            "revision": 1,
+            "source_id": "POL-010-1"
+          }
+        ],
+        "code": "UNSUPPORTED_UNIT",
+        "invoice_line_id": "IL-060-1",
+        "po_line_id": "POL-010-1",
+        "quantity_delta": null
+      }
+    ],
+    "next_action": "RESEARCH_MISSING_EVIDENCE",
+    "status": "INSUFFICIENT_EVIDENCE"
+  }
+}

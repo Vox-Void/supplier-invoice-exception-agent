@@ -1,0 +1,74 @@
+{
+  "calls": [
+    {
+      "arguments": {},
+      "digest": "8462469b7d0a7c7f32f51f8a72766419fc5038778a819788a2e5793d5ee7cb17",
+      "tool": "read_invoice"
+    },
+    {
+      "arguments": {
+        "po_id": "PO-010"
+      },
+      "digest": "36d5c9d6d7174ccc220abee9eb8903e62f3b662d711d36dc78082647317c4877",
+      "tool": "read_purchase_order"
+    },
+    {
+      "arguments": {
+        "po_line_ids": [
+          "POL-010-1"
+        ]
+      },
+      "digest": "b486068adbcd1d5d9a6a54b22aae69a1a86c3c6376bc77fd994926dda6371400",
+      "tool": "read_receipts"
+    },
+    {
+      "arguments": {
+        "po_line_ids": [
+          "POL-010-1"
+        ]
+      },
+      "digest": "bdeff7e971340ef765630f63773fe275b96440ae90e3ce4bed71acba4e7f247c",
+      "tool": "read_prior_allocations"
+    },
+    {
+      "arguments": {},
+      "digest": "35d174bc4d6fdc0808cc851d0b731d31a22fb943ef1f57ff6f4a948385b34761",
+      "tool": "find_duplicate_reference"
+    }
+  ],
+  "draft": {
+    "findings": [
+      {
+        "amount_delta": null,
+        "citations": [
+          {
+            "kind": "allocation",
+            "revision": 1,
+            "source_id": "ALLOC-030"
+          },
+          {
+            "kind": "invoice_line",
+            "revision": 1,
+            "source_id": "IL-060-1"
+          },
+          {
+            "kind": "po_line",
+            "revision": 1,
+            "source_id": "POL-010-1"
+          },
+          {
+            "kind": "receipt",
+            "revision": 1,
+            "source_id": "RCV-080"
+          }
+        ],
+        "code": "RECEIPT_SHORTFALL",
+        "invoice_line_id": null,
+        "po_line_id": "POL-010-1",
+        "quantity_delta": 10
+      }
+    ],
+    "next_action": "REQUEST_RECEIPT",
+    "status": "EXCEPTION"
+  }
+}

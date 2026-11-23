@@ -1,0 +1,44 @@
+{
+  "calls": [
+    {
+      "arguments": {},
+      "digest": "30d20621cc215a98c411f7a22fce59f9bd8acf93165b9e9f3818dce93983e6b5",
+      "tool": "read_invoice"
+    },
+    {
+      "arguments": {
+        "po_id": "PO-010"
+      },
+      "digest": "f4c010595f97983904ee9d699d2c57c1ba21d49e3c4a920eeccb46aa9cf588ec",
+      "tool": "read_purchase_order"
+    },
+    {
+      "arguments": {
+        "po_line_ids": [
+          "POL-010-1"
+        ]
+      },
+      "digest": "271548ce0c28b94dc01b567b00a6cfcda9f7505d919abb5327f69bd72c539023",
+      "tool": "read_receipts"
+    },
+    {
+      "arguments": {
+        "po_line_ids": [
+          "POL-010-1"
+        ]
+      },
+      "digest": "5ff1fee844524cabf9bcbaa9ba23455ee74468817d5d6167cdb59046a0086d5c",
+      "tool": "read_prior_allocations"
+    },
+    {
+      "arguments": {},
+      "digest": "4aa55ce43fb1fce10887d6089de478bf3ba56a36e2a895d817b201b5e0894907",
+      "tool": "find_duplicate_reference"
+    }
+  ],
+  "draft": {
+    "findings": [],
+    "next_action": "REVIEW_MATCH",
+    "status": "MATCHED"
+  }
+}

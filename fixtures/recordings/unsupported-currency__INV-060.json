@@ -1,0 +1,41 @@
+{
+  "calls": [
+    {
+      "arguments": {},
+      "digest": "6fbd44b01a8d803c63a3ce460e942ffac4949e26b7185895af1e37e2f800c415",
+      "tool": "read_invoice"
+    },
+    {
+      "arguments": {
+        "po_id": "PO-010"
+      },
+      "digest": "96d236753697e4e93e6a86aa58b06edb30d4b7b114f5c3c8f05b8ad642b26ce7",
+      "tool": "read_purchase_order"
+    }
+  ],
+  "draft": {
+    "findings": [
+      {
+        "amount_delta": null,
+        "citations": [
+          {
+            "kind": "invoice",
+            "revision": 1,
+            "source_id": "INV-060"
+          },
+          {
+            "kind": "purchase_order",
+            "revision": 1,
+            "source_id": "PO-010"
+          }
+        ],
+        "code": "UNSUPPORTED_CURRENCY",
+        "invoice_line_id": null,
+        "po_line_id": null,
+        "quantity_delta": null
+      }
+    ],
+    "next_action": "RESEARCH_MISSING_EVIDENCE",
+    "status": "INSUFFICIENT_EVIDENCE"
+  }
+}

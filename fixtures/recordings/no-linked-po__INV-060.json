@@ -1,0 +1,29 @@
+{
+  "calls": [
+    {
+      "arguments": {},
+      "digest": "0e403eac899276a0ee4c7f253a21b1896d278ddc08916617277163ee10282fa4",
+      "tool": "read_invoice"
+    }
+  ],
+  "draft": {
+    "findings": [
+      {
+        "amount_delta": null,
+        "citations": [
+          {
+            "kind": "invoice",
+            "revision": 1,
+            "source_id": "INV-060"
+          }
+        ],
+        "code": "MISSING_LINKAGE",
+        "invoice_line_id": null,
+        "po_line_id": null,
+        "quantity_delta": null
+      }
+    ],
+    "next_action": "ASK_BUYER_TO_CONFIRM_PO",
+    "status": "INSUFFICIENT_EVIDENCE"
+  }
+}

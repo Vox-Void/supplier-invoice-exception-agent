@@ -1,0 +1,35 @@
+name: Verify invoice workflow
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  recorded-demo:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Install uv
+        run: pipx install uv==0.13.9
+      - name: Start PostgreSQL and load snapshots
+        run: ./scripts/dev bootstrap
+      - name: Test the policy and store
+        run: ./scripts/dev test
+      - name: Check the API demo and offline benchmark
+        run: |
+          ./scripts/dev demo
+          ./scripts/dev eval
+      - name: Upload verification reports
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: invoice-evidence
+          path: artifacts/
+          if-no-files-found: error
+      - name: Stop PostgreSQL
+        if: always()
+        run: docker compose down -v

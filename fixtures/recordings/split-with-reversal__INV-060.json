@@ -1,0 +1,84 @@
+{
+  "calls": [
+    {
+      "arguments": {},
+      "digest": "faec5b1bdb091c33b9581c166be320a91142fa8676c84c8acc208c208daf803c",
+      "tool": "read_invoice"
+    },
+    {
+      "arguments": {
+        "po_id": "PO-010"
+      },
+      "digest": "b35a866c947f2de84269ed26d6517d7e03c4a32d44c5880d87e256b2c699a91e",
+      "tool": "read_purchase_order"
+    },
+    {
+      "arguments": {
+        "po_line_ids": [
+          "POL-010-1"
+        ]
+      },
+      "digest": "0cf178fdd414310f32ae9c58441fea62bed947528d3938fa0d5fae88886bdf2c",
+      "tool": "read_receipts"
+    },
+    {
+      "arguments": {
+        "po_line_ids": [
+          "POL-010-1"
+        ]
+      },
+      "digest": "ffa249248b82377aafab976bda25b0bbb24061ccefc5b4a0b20e64c40b9e68d2",
+      "tool": "read_prior_allocations"
+    },
+    {
+      "arguments": {},
+      "digest": "1ce40b7480c92de98b79362fd237c3ced4f820b1baff48eeba0fec4c6f94ecaf",
+      "tool": "find_duplicate_reference"
+    }
+  ],
+  "draft": {
+    "findings": [
+      {
+        "amount_delta": null,
+        "citations": [
+          {
+            "kind": "allocation",
+            "revision": 1,
+            "source_id": "ALLOC-030"
+          },
+          {
+            "kind": "invoice_line",
+            "revision": 1,
+            "source_id": "IL-060-1"
+          },
+          {
+            "kind": "po_line",
+            "revision": 1,
+            "source_id": "POL-010-1"
+          },
+          {
+            "kind": "receipt",
+            "revision": 1,
+            "source_id": "RCV-040"
+          },
+          {
+            "kind": "receipt",
+            "revision": 1,
+            "source_id": "RCV-050"
+          },
+          {
+            "kind": "receipt",
+            "revision": 1,
+            "source_id": "REV-010"
+          }
+        ],
+        "code": "RECEIPT_SHORTFALL",
+        "invoice_line_id": null,
+        "po_line_id": "POL-010-1",
+        "quantity_delta": 5
+      }
+    ],
+    "next_action": "REQUEST_RECEIPT",
+    "status": "EXCEPTION"
+  }
+}

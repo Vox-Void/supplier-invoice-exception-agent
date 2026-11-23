@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: postgres:17.11-bookworm@sha256:665dc7b37ac52a17e298511414c21d23ffa4e6a6ef6225b3e5d59c7afb35e994
+    environment:
+      POSTGRES_DB: invoice_agent
+      POSTGRES_USER: invoice_demo
+      POSTGRES_PASSWORD: invoice_demo_local
+    ports:
+      - "127.0.0.1:${INVOICE_AGENT_PG_PORT:-5414}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U invoice_demo -d invoice_agent"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+volumes:
+  postgres_data:

@@ -1,0 +1,51 @@
+{
+  "calls": [
+    {
+      "arguments": {},
+      "digest": "8805b530ec05bf959fc5ffbfa91c252eedde5a53fd8d40c2c0eaf4640af815a6",
+      "tool": "read_invoice"
+    },
+    {
+      "arguments": {
+        "po_id": "PO-010"
+      },
+      "digest": "a29750e6de4fbe5934ceed35ee6740ee7d641c2c695f43970590e88ea0e90d2a",
+      "tool": "read_purchase_order"
+    }
+  ],
+  "draft": {
+    "findings": [
+      {
+        "amount_delta": null,
+        "citations": [
+          {
+            "kind": "invoice_line",
+            "revision": 1,
+            "source_id": "IL-060-1"
+          },
+          {
+            "kind": "po_line",
+            "revision": 1,
+            "source_id": "POL-010-1"
+          },
+          {
+            "kind": "po_line",
+            "revision": 1,
+            "source_id": "POL-010-2"
+          },
+          {
+            "kind": "purchase_order",
+            "revision": 1,
+            "source_id": "PO-010"
+          }
+        ],
+        "code": "AMBIGUOUS_LINKAGE",
+        "invoice_line_id": "IL-060-1",
+        "po_line_id": null,
+        "quantity_delta": null
+      }
+    ],
+    "next_action": "ASK_BUYER_TO_CONFIRM_PO",
+    "status": "INSUFFICIENT_EVIDENCE"
+  }
+}

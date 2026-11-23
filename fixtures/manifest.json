@@ -1,0 +1,29 @@
+{
+  "development_cases": 7,
+  "evaluation_cases": 12,
+  "fixture_version": "retail-fixtures-v1",
+  "policy_version": "invoice-match-v1",
+  "sha256": {
+    "goldens.json": "fa86964228ce4c7c1d3d82bbe9ab5519ac10a6d28a6724887eba7efab49c6c81",
+    "recordings/ambiguous-po-line__INV-060.json": "3ba2685b53fcf64d3cb92efdf67f0cb8d45f7173fb37b56ee4348ab273445a03",
+    "recordings/clean-match__INV-060.json": "75024f7daea11097435c22d7b30466ea1c62d0c1e6ce59adb83b8096fb5a9c0b",
+    "recordings/confirmed-empty-receipts__INV-060.json": "d5bbaf180bc22f9697e002caf92f57e6a2632e7ff4214161923f89aacff268df",
+    "recordings/distinct-reference__INV-060.json": "5d4a9b65d6317975a0d7038db7d439a582e70fe5328b17649a608f8d4c2fa588",
+    "recordings/duplicate-normalized-reference__INV-060.json": "9fe30a0de502c72d9ec08e5fbed175b2701509baeac29b2dcf4a6dab35a606a9",
+    "recordings/hostile-memo__INV-060.json": "dcbda11ed9ec4b7a0befa0698dfcdc5950abe38b3ee1726cf8e1b2e8595dd7fe",
+    "recordings/late-effective-receipt__INV-060.json": "def046cc68d0a9ee0e5d5ff68d0a08a5df700c35b25f435b40d1f4f0268b7dc2",
+    "recordings/no-linked-po__INV-060.json": "08619d343472dd60f5ef8a4ddd1e8237aa8a71cc5097ccf0e5bf0be9274e2ed1",
+    "recordings/over-order__INV-060.json": "9614c3f7884c3e717d6beff65156ad3eacedcbfcdf43c9bb4746fec0a854bc26",
+    "recordings/price-on-boundary__INV-060.json": "7191edde1b7cca94fceb14a09b971e2da343d11084fab2da651bc03532b8d2a2",
+    "recordings/price-over-boundary__INV-060.json": "964f25a7c8c762646f2dce0ed6f356a39aec7c9cf4a0f3c65fa7eff779611e43",
+    "recordings/retail-demo-v1__INV-060.json": "8343e4ff8a54c9489cf87399c0c46397596fdeca37a2e722536a70d41cd6bec9",
+    "recordings/split-with-reversal__INV-060.json": "08f4e37bbbde316f15eea36f5129134c4b1b95560aadf948dd34a6c61d2b8902",
+    "recordings/stale-receipts__INV-060.json": "55a300042832d433ae1ac1318e735fa46ecb3a2711b126ecc51b2b5dd2601787",
+    "recordings/truncated-receipts__INV-060.json": "ba694bfeaf50f52ac631ca1f9e9c4508d8763943ea67c44554dccfe41ddddc75",
+    "recordings/two-lines-one-order__INV-060.json": "c89cbcd5e5d4843e49dc6e74462da7a751da427f19aa05a6f8439bd00a216905",
+    "recordings/unsupported-currency__INV-060.json": "9e50855e6955206f3cdf338413772c9972ea34116088c3586ad3610d8d526397",
+    "recordings/unsupported-unit__INV-060.json": "46d26d03616785a5af4f84df2ac5629763df0ecd02b0b34c334b349f0965bbf7",
+    "recordings/wrong-finding-citation__INV-060.json": "8c4d79c933251a16fcc7888e6ac636e3dbca53cc4238e15746f87d15b2328543",
+    "snapshots.json": "31a5b2ca317ee818f0e76d23232c368598d56021d55275c7fdab9181bebe6b35"
+  }
+}

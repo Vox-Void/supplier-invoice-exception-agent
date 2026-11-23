@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
+
+export INVOICE_AGENT_DSN="${INVOICE_AGENT_DSN:-postgresql://invoice_demo:invoice_demo_local@127.0.0.1:${INVOICE_AGENT_PG_PORT:-5414}/invoice_agent}"
+
+command="${1:-help}"
+if [[ $# -gt 0 ]]; then
+  shift
+fi
+case "$command" in
+  bootstrap)
+    docker compose up -d --wait postgres
+    uv sync --locked
+    uv run --locked python -m invoice_agent.cli bootstrap "$@"
+    ;;
+  test)
+    export INVOICE_AGENT_TEST_DSN="$INVOICE_AGENT_DSN"
+    uv run --locked ruff format --check .
+    uv run --locked ruff check .
+    uv run --locked mypy src
+    uv run --locked pytest "$@"
+    ;;
+  serve)
+    uv run --locked uvicorn invoice_agent.api:create_app --factory \
+      --host 127.0.0.1 --port "${INVOICE_AGENT_HTTP_PORT:-8014}" "$@"
+    ;;
+  demo|eval|fixtures)
+    uv run --locked python -m invoice_agent.cli "$command" "$@"
+    ;;
+  *)
+    echo 'Usage: ./scripts/dev {bootstrap|test|serve|demo|eval|fixtures}'
+    [[ "$command" == help ]]
+    ;;
+esac

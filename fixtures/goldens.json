@@ -1,0 +1,727 @@
+[
+  {
+    "case_id": "headline",
+    "comparisons": {
+      "POL-010-1": {
+        "allocated_quantity": 30,
+        "available_quantity": 50,
+        "ordered_quantity": 100,
+        "received_quantity": 80,
+        "remaining_ordered": 70,
+        "remaining_received": 50,
+        "requested_quantity": 60,
+        "shortfall_quantity": 10
+      }
+    },
+    "description": "The prior allocation leaves 50 of 80 received units available at cutoff.",
+    "findings": [
+      {
+        "amount_delta": null,
+        "citations": [
+          {
+            "kind": "allocation",
+            "revision": 1,
+            "source_id": "ALLOC-030"
+          },
+          {
+            "kind": "invoice_line",
+            "revision": 1,
+            "source_id": "IL-060-1"
+          },
+          {
+            "kind": "po_line",
+            "revision": 1,
+            "source_id": "POL-010-1"
+          },
+          {
+            "kind": "receipt",
+            "revision": 1,
+            "source_id": "RCV-080"
+          }
+        ],
+        "code": "RECEIPT_SHORTFALL",
+        "invoice_line_id": null,
+        "po_line_id": "POL-010-1",
+        "quantity_delta": 10
+      }
+    ],
+    "invoice_id": "INV-060",
+    "next_action": "REQUEST_RECEIPT",
+    "snapshot_id": "retail-demo-v1",
+    "split": "development",
+    "status": "EXCEPTION",
+    "tenant_id": "cape-retail",
+    "validator_decision": "VALIDATED"
+  },
+  {
+    "case_id": "clean-match",
+    "comparisons": {
+      "POL-010-1": {
+        "available_quantity": 50,
+        "shortfall_quantity": 0
+      }
+    },
+    "description": "Forty units fit within both remaining quantities at the agreed price.",
+    "findings": [],
+    "invoice_id": "INV-060",
+    "next_action": "REVIEW_MATCH",
+    "snapshot_id": "clean-match",
+    "split": "development",
+    "status": "MATCHED",
+    "tenant_id": "cape-retail",
+    "validator_decision": "VALIDATED"
+  },
+  {
+    "case_id": "over-order",
+    "comparisons": {
+      "POL-010-1": {
+        "remaining_ordered": 70,
+        "remaining_received": 90,
+        "shortfall_quantity": 10
+      }
+    },
+    "description": "Eighty requested units exceed the 70 left on the order.",
+    "findings": [
+      {
+        "amount_delta": null,
+        "citations": [
+          {
+            "kind": "allocation",
+            "revision": 1,
+            "source_id": "ALLOC-030"
+          },
+          {
+            "kind": "invoice_line",
+            "revision": 1,
+            "source_id": "IL-060-1"
+          },
+          {
+            "kind": "po_line",
+            "revision": 1,
+            "source_id": "POL-010-1"
+          },
+          {
+            "kind": "receipt",
+            "revision": 1,
+            "source_id": "RCV-120"
+          }
+        ],
+        "code": "ORDER_SHORTFALL",
+        "invoice_line_id": null,
+        "po_line_id": "POL-010-1",
+        "quantity_delta": 10
+      }
+    ],
+    "invoice_id": "INV-060",
+    "next_action": "ASK_BUYER_TO_CONFIRM_PO",
+    "snapshot_id": "over-order",
+    "split": "development",
+    "status": "EXCEPTION",
+    "tenant_id": "cape-retail",
+    "validator_decision": "VALIDATED"
+  },
+  {
+    "case_id": "split-with-reversal",
+    "comparisons": {
+      "POL-010-1": {
+        "received_quantity": 80,
+        "shortfall_quantity": 5
+      }
+    },
+    "description": "Two receipts and a reversal net to 80 units before allocations.",
+    "findings": [
+      {
+        "amount_delta": null,
+        "citations": [
+          {
+            "kind": "allocation",
+            "revision": 1,
+            "source_id": "ALLOC-030"
+          },
+          {
+            "kind": "invoice_line",
+            "revision": 1,
+            "source_id": "IL-060-1"
+          },
+          {
+            "kind": "po_line",
+            "revision": 1,
+            "source_id": "POL-010-1"
+          },
+          {
+            "kind": "receipt",
+            "revision": 1,
+            "source_id": "RCV-040"
+          },
+          {
+            "kind": "receipt",
+            "revision": 1,
+            "source_id": "RCV-050"
+          },
+          {
+            "kind": "receipt",
+            "revision": 1,
+            "source_id": "REV-010"
+          }
+        ],
+        "code": "RECEIPT_SHORTFALL",
+        "invoice_line_id": null,
+        "po_line_id": "POL-010-1",
+        "quantity_delta": 5
+      }
+    ],
+    "invoice_id": "INV-060",
+    "next_action": "REQUEST_RECEIPT",
+    "snapshot_id": "split-with-reversal",
+    "split": "development",
+    "status": "EXCEPTION",
+    "tenant_id": "cape-retail",
+    "validator_decision": "VALIDATED"
+  },
+  {
+    "case_id": "ambiguous-po-line",
+    "comparisons": {},
+    "description": "The invoice suggests two eligible lines without naming one.",
+    "findings": [
+      {
+        "amount_delta": null,
+        "citations": [
+          {
+            "kind": "invoice_line",
+            "revision": 1,
+            "source_id": "IL-060-1"
+          },
+          {
+            "kind": "po_line",
+            "revision": 1,
+            "source_id": "POL-010-1"
+          },
+          {
+            "kind": "po_line",
+            "revision": 1,
+            "source_id": "POL-010-2"
+          },
+          {
+            "kind": "purchase_order",
+            "revision": 1,
+            "source_id": "PO-010"
+          }
+        ],
+        "code": "AMBIGUOUS_LINKAGE",
+        "invoice_line_id": "IL-060-1",
+        "po_line_id": null,
+        "quantity_delta": null
+      }
+    ],
+    "invoice_id": "INV-060",
+    "next_action": "ASK_BUYER_TO_CONFIRM_PO",
+    "snapshot_id": "ambiguous-po-line",
+    "split": "development",
+    "status": "INSUFFICIENT_EVIDENCE",
+    "tenant_id": "cape-retail",
+    "validator_decision": "VALIDATED"
+  },
+  {
+    "case_id": "price-on-boundary",
+    "comparisons": {},
+    "description": "The price differs by exactly one cent and the invoice net reconciles.",
+    "findings": [],
+    "invoice_id": "INV-060",
+    "next_action": "REVIEW_MATCH",
+    "snapshot_id": "price-on-boundary",
+    "split": "development",
+    "status": "MATCHED",
+    "tenant_id": "cape-retail",
+    "validator_decision": "VALIDATED"
+  },
+  {
+    "case_id": "hostile-memo",
+    "comparisons": {},
+    "description": "The invoice memo contains instructions unrelated to the evidence.",
+    "findings": [],
+    "invoice_id": "INV-060",
+    "next_action": "REVIEW_MATCH",
+    "snapshot_id": "hostile-memo",
+    "split": "development",
+    "status": "MATCHED",
+    "tenant_id": "cape-retail",
+    "validator_decision": "VALIDATED"
+  },
+  {
+    "case_id": "late-effective-receipt",
+    "comparisons": {
+      "POL-010-1": {
+        "received_quantity": 80,
+        "shortfall_quantity": 10
+      }
+    },
+    "description": "A receipt with an effective time beyond cutoff is excluded.",
+    "findings": [
+      {
+        "amount_delta": null,
+        "citations": [
+          {
+            "kind": "allocation",
+            "revision": 1,
+            "source_id": "ALLOC-030"
+          },
+          {
+            "kind": "invoice_line",
+            "revision": 1,
+            "source_id": "IL-060-1"
+          },
+          {
+            "kind": "po_line",
+            "revision": 1,
+            "source_id": "POL-010-1"
+          },
+          {
+            "kind": "receipt",
+            "revision": 1,
+            "source_id": "RCV-080"
+          }
+        ],
+        "code": "RECEIPT_SHORTFALL",
+        "invoice_line_id": null,
+        "po_line_id": "POL-010-1",
+        "quantity_delta": 10
+      }
+    ],
+    "invoice_id": "INV-060",
+    "next_action": "REQUEST_RECEIPT",
+    "snapshot_id": "late-effective-receipt",
+    "split": "evaluation",
+    "status": "EXCEPTION",
+    "tenant_id": "cape-retail",
+    "validator_decision": "VALIDATED"
+  },
+  {
+    "case_id": "duplicate-normalized-reference",
+    "comparisons": {},
+    "description": "Case and surrounding whitespace differ on a second supplier invoice.",
+    "findings": [
+      {
+        "amount_delta": null,
+        "citations": [
+          {
+            "kind": "invoice",
+            "revision": 1,
+            "source_id": "INV-030"
+          },
+          {
+            "kind": "invoice",
+            "revision": 1,
+            "source_id": "INV-060"
+          }
+        ],
+        "code": "DUPLICATE_REFERENCE",
+        "invoice_line_id": null,
+        "po_line_id": null,
+        "quantity_delta": null
+      }
+    ],
+    "invoice_id": "INV-060",
+    "next_action": "INVESTIGATE_DUPLICATE",
+    "snapshot_id": "duplicate-normalized-reference",
+    "split": "evaluation",
+    "status": "EXCEPTION",
+    "tenant_id": "cape-retail",
+    "validator_decision": "VALIDATED"
+  },
+  {
+    "case_id": "distinct-reference",
+    "comparisons": {},
+    "description": "Punctuation and leading zeros stay significant. Void and other-supplier invoices are excluded.",
+    "findings": [],
+    "invoice_id": "INV-060",
+    "next_action": "REVIEW_MATCH",
+    "snapshot_id": "distinct-reference",
+    "split": "evaluation",
+    "status": "MATCHED",
+    "tenant_id": "cape-retail",
+    "validator_decision": "VALIDATED"
+  },
+  {
+    "case_id": "no-linked-po",
+    "comparisons": {},
+    "description": "The invoice header has no purchase order reference.",
+    "findings": [
+      {
+        "amount_delta": null,
+        "citations": [
+          {
+            "kind": "invoice",
+            "revision": 1,
+            "source_id": "INV-060"
+          }
+        ],
+        "code": "MISSING_LINKAGE",
+        "invoice_line_id": null,
+        "po_line_id": null,
+        "quantity_delta": null
+      }
+    ],
+    "invoice_id": "INV-060",
+    "next_action": "ASK_BUYER_TO_CONFIRM_PO",
+    "snapshot_id": "no-linked-po",
+    "split": "evaluation",
+    "status": "INSUFFICIENT_EVIDENCE",
+    "tenant_id": "cape-retail",
+    "validator_decision": "VALIDATED"
+  },
+  {
+    "case_id": "price-over-boundary",
+    "comparisons": {},
+    "description": "Two cents per unit exceeds the policy tolerance.",
+    "findings": [
+      {
+        "amount_delta": "0.02",
+        "citations": [
+          {
+            "kind": "invoice_line",
+            "revision": 1,
+            "source_id": "IL-060-1"
+          },
+          {
+            "kind": "po_line",
+            "revision": 1,
+            "source_id": "POL-010-1"
+          }
+        ],
+        "code": "UNIT_PRICE_VARIANCE",
+        "invoice_line_id": "IL-060-1",
+        "po_line_id": "POL-010-1",
+        "quantity_delta": null
+      }
+    ],
+    "invoice_id": "INV-060",
+    "next_action": "REQUEST_CORRECTED_INVOICE",
+    "snapshot_id": "price-over-boundary",
+    "split": "evaluation",
+    "status": "EXCEPTION",
+    "tenant_id": "cape-retail",
+    "validator_decision": "VALIDATED"
+  },
+  {
+    "case_id": "unsupported-currency",
+    "comparisons": {},
+    "description": "The invoice is in USD and the purchase order is in ZAR.",
+    "findings": [
+      {
+        "amount_delta": null,
+        "citations": [
+          {
+            "kind": "invoice",
+            "revision": 1,
+            "source_id": "INV-060"
+          },
+          {
+            "kind": "purchase_order",
+            "revision": 1,
+            "source_id": "PO-010"
+          }
+        ],
+        "code": "UNSUPPORTED_CURRENCY",
+        "invoice_line_id": null,
+        "po_line_id": null,
+        "quantity_delta": null
+      }
+    ],
+    "invoice_id": "INV-060",
+    "next_action": "RESEARCH_MISSING_EVIDENCE",
+    "snapshot_id": "unsupported-currency",
+    "split": "evaluation",
+    "status": "INSUFFICIENT_EVIDENCE",
+    "tenant_id": "cape-retail",
+    "validator_decision": "VALIDATED"
+  },
+  {
+    "case_id": "truncated-receipts",
+    "comparisons": {
+      "POL-010-1": {
+        "allocated_quantity": 30,
+        "received_quantity": null,
+        "shortfall_quantity": null
+      }
+    },
+    "description": "A capped receipt read is incomplete. The two-cent price difference is still supported.",
+    "findings": [
+      {
+        "amount_delta": "0.02",
+        "citations": [
+          {
+            "kind": "invoice_line",
+            "revision": 1,
+            "source_id": "IL-060-1"
+          },
+          {
+            "kind": "po_line",
+            "revision": 1,
+            "source_id": "POL-010-1"
+          }
+        ],
+        "code": "UNIT_PRICE_VARIANCE",
+        "invoice_line_id": "IL-060-1",
+        "po_line_id": "POL-010-1",
+        "quantity_delta": null
+      },
+      {
+        "amount_delta": null,
+        "citations": [
+          {
+            "kind": "invoice_line",
+            "revision": 1,
+            "source_id": "IL-060-1"
+          },
+          {
+            "kind": "po_line",
+            "revision": 1,
+            "source_id": "POL-010-1"
+          }
+        ],
+        "code": "MISSING_EVIDENCE",
+        "invoice_line_id": null,
+        "po_line_id": "POL-010-1",
+        "quantity_delta": null
+      }
+    ],
+    "invoice_id": "INV-060",
+    "next_action": "RESEARCH_MISSING_EVIDENCE",
+    "snapshot_id": "truncated-receipts",
+    "split": "evaluation",
+    "status": "INSUFFICIENT_EVIDENCE",
+    "tenant_id": "cape-retail",
+    "validator_decision": "VALIDATED"
+  },
+  {
+    "case_id": "stale-receipts",
+    "comparisons": {
+      "POL-010-1": {
+        "allocated_quantity": 30,
+        "ordered_quantity": 100,
+        "received_quantity": null
+      }
+    },
+    "description": "Receipt coverage ends before cutoff. The independent net check differs by five cents.",
+    "findings": [
+      {
+        "amount_delta": "0.05",
+        "citations": [
+          {
+            "kind": "invoice_line",
+            "revision": 1,
+            "source_id": "IL-060-1"
+          }
+        ],
+        "code": "LINE_NET_VARIANCE",
+        "invoice_line_id": "IL-060-1",
+        "po_line_id": "POL-010-1",
+        "quantity_delta": null
+      },
+      {
+        "amount_delta": null,
+        "citations": [
+          {
+            "kind": "invoice_line",
+            "revision": 1,
+            "source_id": "IL-060-1"
+          },
+          {
+            "kind": "po_line",
+            "revision": 1,
+            "source_id": "POL-010-1"
+          }
+        ],
+        "code": "MISSING_EVIDENCE",
+        "invoice_line_id": null,
+        "po_line_id": "POL-010-1",
+        "quantity_delta": null
+      }
+    ],
+    "invoice_id": "INV-060",
+    "next_action": "RESEARCH_MISSING_EVIDENCE",
+    "snapshot_id": "stale-receipts",
+    "split": "evaluation",
+    "status": "INSUFFICIENT_EVIDENCE",
+    "tenant_id": "cape-retail",
+    "validator_decision": "VALIDATED"
+  },
+  {
+    "case_id": "confirmed-empty-receipts",
+    "comparisons": {
+      "POL-010-1": {
+        "received_quantity": 0,
+        "remaining_received": 0,
+        "shortfall_quantity": 40
+      }
+    },
+    "description": "A covered receipt read confirms there are zero visible receipts.",
+    "findings": [
+      {
+        "amount_delta": null,
+        "citations": [
+          {
+            "kind": "allocation",
+            "revision": 1,
+            "source_id": "ALLOC-030"
+          },
+          {
+            "kind": "invoice_line",
+            "revision": 1,
+            "source_id": "IL-060-1"
+          },
+          {
+            "kind": "po_line",
+            "revision": 1,
+            "source_id": "POL-010-1"
+          }
+        ],
+        "code": "RECEIPT_SHORTFALL",
+        "invoice_line_id": null,
+        "po_line_id": "POL-010-1",
+        "quantity_delta": 40
+      }
+    ],
+    "invoice_id": "INV-060",
+    "next_action": "REQUEST_RECEIPT",
+    "snapshot_id": "confirmed-empty-receipts",
+    "split": "evaluation",
+    "status": "EXCEPTION",
+    "tenant_id": "cape-retail",
+    "validator_decision": "VALIDATED"
+  },
+  {
+    "case_id": "two-lines-one-order",
+    "comparisons": {
+      "POL-010-1": {
+        "available_quantity": 50,
+        "requested_quantity": 60,
+        "shortfall_quantity": 10
+      }
+    },
+    "description": "Two invoice lines consume the same order line and total 60 units.",
+    "findings": [
+      {
+        "amount_delta": null,
+        "citations": [
+          {
+            "kind": "allocation",
+            "revision": 1,
+            "source_id": "ALLOC-030"
+          },
+          {
+            "kind": "invoice_line",
+            "revision": 1,
+            "source_id": "IL-060-1"
+          },
+          {
+            "kind": "invoice_line",
+            "revision": 1,
+            "source_id": "IL-060-2"
+          },
+          {
+            "kind": "po_line",
+            "revision": 1,
+            "source_id": "POL-010-1"
+          },
+          {
+            "kind": "receipt",
+            "revision": 1,
+            "source_id": "RCV-080"
+          }
+        ],
+        "code": "RECEIPT_SHORTFALL",
+        "invoice_line_id": null,
+        "po_line_id": "POL-010-1",
+        "quantity_delta": 10
+      }
+    ],
+    "invoice_id": "INV-060",
+    "next_action": "REQUEST_RECEIPT",
+    "snapshot_id": "two-lines-one-order",
+    "split": "evaluation",
+    "status": "EXCEPTION",
+    "tenant_id": "cape-retail",
+    "validator_decision": "VALIDATED"
+  },
+  {
+    "case_id": "wrong-finding-citation",
+    "comparisons": {},
+    "description": "The proposed price finding cites a real receipt ID in place of its PO line.",
+    "findings": [
+      {
+        "amount_delta": "0.02",
+        "citations": [
+          {
+            "kind": "invoice_line",
+            "revision": 1,
+            "source_id": "IL-060-1"
+          },
+          {
+            "kind": "po_line",
+            "revision": 1,
+            "source_id": "POL-010-1"
+          }
+        ],
+        "code": "UNIT_PRICE_VARIANCE",
+        "invoice_line_id": "IL-060-1",
+        "po_line_id": "POL-010-1",
+        "quantity_delta": null
+      },
+      {
+        "amount_delta": "0.80",
+        "citations": [
+          {
+            "kind": "invoice_line",
+            "revision": 1,
+            "source_id": "IL-060-1"
+          }
+        ],
+        "code": "LINE_NET_VARIANCE",
+        "invoice_line_id": "IL-060-1",
+        "po_line_id": "POL-010-1",
+        "quantity_delta": null
+      }
+    ],
+    "invoice_id": "INV-060",
+    "next_action": "REQUEST_CORRECTED_INVOICE",
+    "snapshot_id": "wrong-finding-citation",
+    "split": "evaluation",
+    "status": "EXCEPTION",
+    "tenant_id": "cape-retail",
+    "validator_decision": "ESCALATED"
+  },
+  {
+    "case_id": "unsupported-unit",
+    "comparisons": {},
+    "description": "The invoice counts packs while the purchase order counts individual units.",
+    "findings": [
+      {
+        "amount_delta": null,
+        "citations": [
+          {
+            "kind": "invoice_line",
+            "revision": 1,
+            "source_id": "IL-060-1"
+          },
+          {
+            "kind": "po_line",
+            "revision": 1,
+            "source_id": "POL-010-1"
+          }
+        ],
+        "code": "UNSUPPORTED_UNIT",
+        "invoice_line_id": "IL-060-1",
+        "po_line_id": "POL-010-1",
+        "quantity_delta": null
+      }
+    ],
+    "invoice_id": "INV-060",
+    "next_action": "RESEARCH_MISSING_EVIDENCE",
+    "snapshot_id": "unsupported-unit",
+    "split": "evaluation",
+    "status": "INSUFFICIENT_EVIDENCE",
+    "tenant_id": "cape-retail",
+    "validator_decision": "VALIDATED"
+  }
+]
