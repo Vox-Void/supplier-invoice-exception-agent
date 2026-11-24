@@ -58,7 +58,12 @@ def test_expired_worker_cannot_complete_and_retry_reuses_case(seeded_store: Stor
             "UPDATE runs SET lease_expires_at = clock_timestamp() WHERE run_id = %s",
             (first.run_id,),
         )
-    assert seeded_store.get_run(TENANT, first.run_id)["retryable"]
+    expired = seeded_store.get_run(TENANT, first.run_id)
+    assert (expired["state"], expired["retryable"], expired["reason"]) == (
+        "RETRYABLE",
+        True,
+        "LEASE_EXPIRED",
+    )
     second = seeded_store.reserve(TENANT, ACTOR, request_key, REQUEST, policy)
     assert second.run_id == first.run_id and second.lease_token is not None
     with pytest.raises(Conflict):

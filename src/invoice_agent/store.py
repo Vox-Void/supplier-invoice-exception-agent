@@ -11,6 +11,7 @@ import psycopg
 from psycopg import sql
 from psycopg.rows import dict_row
 from psycopg.types.json import Jsonb
+from pydantic import ValidationError
 
 from .domain import Snapshot
 
@@ -131,7 +132,10 @@ class Store:
                     (snapshot_id,),
                 ).fetchall()
                 record[table] = [row["payload"] for row in rows]
-        snapshot = Snapshot.model_validate(record)
+        try:
+            snapshot = Snapshot.model_validate(record)
+        except ValidationError as error:
+            raise Conflict("Stored snapshot records do not match the fixture schema") from error
         if canonical_digest(snapshot.model_dump(mode="json")) != stored_digest:
             raise Conflict("Stored snapshot digest differs from its records")
         return snapshot
@@ -282,11 +286,11 @@ class Store:
             row = conn.execute(
                 """
                 SELECT r.run_id,
-                       CASE WHEN r.lease_expires_at <= clock_timestamp()
+                       CASE WHEN r.lease_expires_at <= statement_timestamp()
                             THEN 'RETRYABLE' ELSE r.state END AS state,
                        (r.state = 'RETRYABLE'
-                            OR coalesce(r.lease_expires_at <= clock_timestamp(), false)) AS retryable,
-                       CASE WHEN r.lease_expires_at <= clock_timestamp()
+                            OR coalesce(r.lease_expires_at <= statement_timestamp(), false)) AS retryable,
+                       CASE WHEN r.lease_expires_at <= statement_timestamp()
                             THEN 'LEASE_EXPIRED' ELSE r.reason END AS reason,
                        c.case_id, ARRAY(
                            SELECT other.run_id FROM runs other

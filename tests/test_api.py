@@ -150,6 +150,10 @@ def test_real_api_case_survives_new_app_and_decision_retry(seeded_store: Store):
         "reason": "Review the short receipt.",
     }
     review_headers = {**REVIEWER, "Idempotency-Key": uuid4().hex}
+    invalid = api.post(
+        endpoint, headers=review_headers, json={**decision, "reason": "Short\0receipt"}
+    )
+    assert (invalid.status_code, invalid.json()["code"]) == (422, "INVALID_REQUEST")
     approved = api.post(endpoint, headers=review_headers, json=decision)
     assert approved.status_code == 200, approved.text
     assert api.post(endpoint, headers=review_headers, json=decision).json() == approved.json()
@@ -162,6 +166,27 @@ def test_real_api_case_survives_new_app_and_decision_retry(seeded_store: Store):
             (case_id,),
         ).fetchall()
     assert [row["event_type"] for row in rows] == ["CASE_READY", "REVIEW_DECIDED"]
+
+
+def test_invalid_snapshot_payload_reports_unavailable_without_reserving(seeded_store: Store):
+    with seeded_store.connect() as conn:
+        conn.execute(
+            """
+            UPDATE invoice_lines
+            SET payload = jsonb_set(payload, '{quantity}', '"invalid"')
+            WHERE snapshot_id = %s AND invoice_id = %s
+            """,
+            (REQUEST["snapshot_id"], REQUEST["invoice_id"]),
+        )
+
+    response = setup_api(seeded_store).post(
+        "/v1/investigations",
+        headers={**REQUESTER, "Idempotency-Key": uuid4().hex},
+        json=REQUEST,
+    )
+    assert (response.status_code, response.json()["code"]) == (503, "SNAPSHOT_UNAVAILABLE")
+    with seeded_store.connect() as conn:
+        assert conn.execute("SELECT run_id FROM runs").fetchone() is None
 
 
 def test_completed_live_run_can_be_retrieved_after_disabling_provider(seeded_store: Store):

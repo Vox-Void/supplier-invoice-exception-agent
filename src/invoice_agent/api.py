@@ -29,7 +29,8 @@ from invoice_agent.workflow import (
 CaseStatus = Literal["READY_FOR_REVIEW", "APPROVED", "RETURNED_FOR_RESEARCH"]
 Decision = Literal["APPROVE_DISPOSITION", "RETURN_FOR_RESEARCH"]
 DecisionReason = Annotated[
-    str, StringConstraints(strip_whitespace=True, min_length=1, max_length=500)
+    str,
+    StringConstraints(strip_whitespace=True, min_length=1, max_length=500, pattern=r"^[^\x00]+$"),
 ]
 CaseVersion = Annotated[int, Field(strict=True, ge=1, le=2_147_483_647)]
 KeyHeader = Annotated[IdempotencyKey, Header(alias="Idempotency-Key")]
